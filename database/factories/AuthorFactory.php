@@ -19,7 +19,7 @@ class AuthorFactory extends Factory
         return [
             'name'=> fake()->name(),
             'city'=> fake()->city(),
-            'DNI'=> fake()->randomNumber(8, true),
+            'DNI'=> fake()->dni(),
             ];
     }
 }

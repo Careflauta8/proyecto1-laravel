@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BookController as Book;
-use App\Http\Controllers\AuthorController as Author;
+use App\Http\Controllers\Api\V1\AuthorController as Author;
 
 /*
 |--------------------------------------------------------------------------
