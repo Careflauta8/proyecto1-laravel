@@ -14,6 +14,7 @@ class AuthController extends Controller
         $data = $request->validate([//para validar los datos de entrada
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
+            'role_id' => 'required',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -26,7 +27,8 @@ class AuthController extends Controller
 
         $user = User::create([//vamos a crear un usuario
             'name' => $data['name'],//se trae de $data el dato name
-            'email' => $data['email'],//se trae de $data el dato email
+            'email' => $data['email'], //se trae de $data el dato email
+            'role_id' => $data['role_id'], //se trae de $data el rol del usuario
             'password' => bcrypt($data['password'])//con bcrypt codifico el password que esta
             //validado en la request
         ]);
@@ -48,6 +50,11 @@ class AuthController extends Controller
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
+        // {
+        //     return response([
+        //         'msg' => 'el inicio ha sido exitoso'
+        //     ], 401);
+        // }
 
         // {
         //     "email": "josemarin@email.com",
@@ -58,7 +65,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response([
-                'msg' => 'incorrect username or password'
+                'msg' => 'usuario o contraseña incorrectos'
             ], 401);
         }
 
@@ -81,9 +88,9 @@ class AuthController extends Controller
         // Get access token from database
         $token = PersonalAccessToken::findToken($accessToken);
 
-        // Revoke token
+        // borra el token para que no lo guarde
         $token->delete();
 
-        return ['message' => $request->user()];
+        return ['message' => 'success'];
     }
 }
