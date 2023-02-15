@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Exception;
 
 class BookController extends Controller
 {
@@ -30,9 +31,17 @@ class BookController extends Controller
 
     public function getById($id)
     {
-        return Book::find($id);//para que me devuelva
-        //un libro por su id, ejemplo: busco el numero 20 y me lo trae
+        try{
+           $book = Book::find($id);
+           return response()->json(['message'=> 'success', 
+           'book'=> $book, 
+           'user'=> $book->user]);
+        }
+        catch(Exception $e){
+           return response()->json(['message' => $e->getMessage()]);
+        }
     }
+
 
 
     /**
@@ -41,10 +50,16 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $author_id)
     {
-            Book::create($request->all());
-            return 'El libro se ha agregado con exito';
+        try{
+            $book = Book::create($request->all());
+            $book->author()->attach($author_id);
+            return response()->json(['message'=>'El libro se ha agregado con exito', 'book'=> $book, 'author'=>$book->author]);
+        }
+        catch(Exception $e){
+                return response()->json(['message' => $e->getMessage()]);
+        }
     
     }
 

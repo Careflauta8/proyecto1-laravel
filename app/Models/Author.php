@@ -15,8 +15,8 @@ class Author extends Model
         'DNI',
     ];
 
-    public function getDescriptionAttribute($value){
-        return substr($value, 1, 120); //se utiliza para 
-        //especificar el tamaño de la descripcion
+
+    public function book(){
+        return $this->belongsToMany(Book::class)->withTimestamps();
     }
 }

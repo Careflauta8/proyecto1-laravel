@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BookController as Book;
 use App\Http\Controllers\Api\V1\AuthorController as Author;
+use App\Http\Controllers\AuthController as Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,21 @@ use App\Http\Controllers\Api\V1\AuthorController as Author;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+//RUTA DE REGISTRO//
+
+Route::post('sign_up', [Auth::class, 'sign_up']);//ok
+Route::post('login', [Auth::class, 'login']);//ok
+
+
+//RUTAS DE BOOKS//
 
 Route::get('books',[Book::class, 'index']);//recibe dos argunmentos, la url y lo que me trae,
 //llama al controlador y al metodo index
 Route::get('books/title={value}',[Book::class,'getByTitle']);
 Route::get('books/{id}',[Book::class,'getById']);
 
-Route::post('books',[Book::class, 'store']);
+Route::post('books/{author_id}',[Book::class, 'store']);
+// Route::post('books',[Book::class, 'store']);
 
 Route::delete('books/{id}',[Book::class,'destroy']);
 

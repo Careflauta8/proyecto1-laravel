@@ -19,7 +19,13 @@ return new class extends Migration
 
             $table->string('title');
             $table->text('description');
+            
+            $table->unsignedBigInteger('user_id');
 
+            $table->foreign('user_id')
+            ->references('id')//esto es para cuando se elimine algo se haga en cascada
+            ->on('users')
+            ->delete('cascade');
 
             $table->timestamps();
         });

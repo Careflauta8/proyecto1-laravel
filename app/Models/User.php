@@ -28,7 +28,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
+    protected $hidden = [//son los datos que no quiero que se muestren 
         'password',
         'remember_token',
     ];
@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //esta funcion lo que hace es mirar la relacion uno a muchos
+    //entre books y users, de la tabla que sea uno se coloca el 
+    //hasMany y la tabla que sean muchos se coloca el 
+    //belongTo.
+    public function book(){
+        return $this->hasMany(Book::class);
+    }
+
 }
